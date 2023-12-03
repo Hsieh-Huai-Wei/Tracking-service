@@ -4,11 +4,12 @@ import { LogisticsModule } from './logistics/logistics.module';
 import { AdminModule } from './admin/admin.module';
 import { DatabaseModule } from './core/database/database.module';
 import { RouterModule } from '@nestjs/core';
+import { ScheduleModule } from '@nestjs/schedule';
 // import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    // ConfigModule.forRoot({ isGlobal: true }),
+    ScheduleModule,
     DatabaseModule,
     LogisticsModule,
     RouterModule.register([

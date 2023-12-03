@@ -5,8 +5,9 @@ import { accountProviders } from 'src/models/account.provider';
 import { detailProviders } from '../models/detail.provider';
 import { locationProviders } from '../models/location.provider';
 import { logisticsProviders } from '../models/logistics.provider';
-
+import { ScheduleModule } from '@nestjs/schedule';
 @Module({
+  imports: [ScheduleModule.forRoot()],
   controllers: [LogisticsController],
   providers: [
     LogisticsService,
