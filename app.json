@@ -1,0 +1,19 @@
+{
+    "apps": [
+        {
+            "name": "tracking-service",
+            "script": "dist/main.js",
+            "instances": 1,
+            "exec_mode": "cluster",
+            "env": {
+                "PORT": 3000,
+                "NODE_ENV":"production",
+                "DB_HOST":"localhost",
+                "DB_PORT":5432,
+                "DB_USER":"postgres",
+                "DB_PASS":"ap",
+                "DB_DIALECT":"postgres"
+            }
+        }
+    ]
+}
