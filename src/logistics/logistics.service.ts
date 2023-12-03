@@ -1,12 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Location, Logistics, Account, Detail } from 'src/models';
+import { Account, Detail, Location, Logistics } from 'src/models';
 import {
   ACCOUNT_REPOSITORY,
   DETAIL_REPOSITORY,
   LOCATION_REPOSITORY,
   LOGISTICS_REPOSITORY,
 } from '../core/database/constants/index';
-
 @Injectable()
 export class LogisticsService {
   constructor(
@@ -124,5 +123,9 @@ export class LogisticsService {
       trackingSummary,
     };
     return result;
+  }
+
+  async uploadReport() {
+    console.log('fetch to s3');
   }
 }
