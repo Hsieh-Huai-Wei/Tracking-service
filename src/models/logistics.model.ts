@@ -54,4 +54,5 @@ export class Logistics extends Model<Logistics> {
     allowNull: false,
   })
   current_location_id: string;
+  statusCount: number;
 }

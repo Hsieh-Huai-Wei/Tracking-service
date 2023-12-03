@@ -1,13 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Location, Logistics } from 'src/models';
+import { Location, Logistics, Account, Detail } from 'src/models';
 import {
   ACCOUNT_REPOSITORY,
   DETAIL_REPOSITORY,
   LOCATION_REPOSITORY,
   LOGISTICS_REPOSITORY,
 } from '../core/database/constants/index';
-import { Account } from '../models/account.model';
-import { Detail } from '../models/detail.model';
 
 @Injectable()
 export class AdminService {
@@ -54,7 +52,10 @@ export class AdminService {
             returning: true,
           },
         );
-        logisticsList.push(createLogisticsPayload.sno);
+        logisticsList.push({
+          sno: createLogisticsPayload.sno,
+          tracking_status: status,
+        });
         const detailPayload = [];
 
         for (let j = 0; j < 4; j++) {
@@ -74,7 +75,7 @@ export class AdminService {
         }
         await this.detail_repo.bulkCreate(detailPayload);
       }
-      return { sno_list: logisticsList };
+      return { status: 'success', data: logisticsList, error: null };
     } catch (error) {
       console.log(error);
       throw new Error('Create logistics fail.');
