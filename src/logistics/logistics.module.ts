@@ -6,8 +6,9 @@ import { detailProviders } from '../models/detail.provider';
 import { locationProviders } from '../models/location.provider';
 import { logisticsProviders } from '../models/logistics.provider';
 import { ScheduleModule } from '@nestjs/schedule';
+import { CacheModule } from '@nestjs/cache-manager';
 @Module({
-  imports: [ScheduleModule.forRoot()],
+  imports: [ScheduleModule.forRoot(), CacheModule.register()],
   controllers: [LogisticsController],
   providers: [
     LogisticsService,

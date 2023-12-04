@@ -1,11 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Account, Detail, Location, Logistics } from 'src/models';
+import { Account, Detail, Location, Logistics, STATUS } from 'src/models';
 import {
   ACCOUNT_REPOSITORY,
   DETAIL_REPOSITORY,
   LOCATION_REPOSITORY,
   LOGISTICS_REPOSITORY,
 } from '../core/database/constants/index';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 @Injectable()
 export class LogisticsService {
   constructor(
@@ -15,9 +17,16 @@ export class LogisticsService {
     private readonly location_repo: typeof Location,
     @Inject(LOGISTICS_REPOSITORY)
     private readonly logistics_repo: typeof Logistics,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
   async findOne(sno: number) {
     try {
+      const value = await this.cacheManager.get<string>(sno.toString());
+      if (value) {
+        console.log(`get sno: ${sno} from Cache and return from Cache`);
+        return value;
+      }
+      console.log(`Cache not find sno: ${sno}.`);
       const logisticsRes = await this.logistics_repo.findOne({
         where: { sno },
       });
@@ -55,7 +64,6 @@ export class LogisticsService {
             };
           });
         }
-        console.log(3);
         if (accountRes) {
           result['recipient'] = {
             id: accountRes.id,
@@ -64,7 +72,6 @@ export class LogisticsService {
             phone: accountRes.phone,
           };
         }
-        console.log(4);
         if (logisticsRes.current_location_id) {
           const targetLocation = locationList.find(
             (local) => local.id === logisticsRes.current_location_id,
@@ -75,6 +82,21 @@ export class LogisticsService {
             city: targetLocation.city,
             address: targetLocation.address,
           };
+        }
+        if (
+          result.data.tracking_status === STATUS.CREATED ||
+          result.data.tracking_status === STATUS.IN_TRANSIT ||
+          result.data.tracking_status === STATUS.PACKAGE_RECEIVED ||
+          result.data.tracking_status === STATUS.OUT_OF_DELIVERY
+        ) {
+          console.log(
+            `set sno: ${sno} to Cache. status: ${result.data.tracking_status}.`,
+          );
+          await this.cacheManager.set(
+            sno.toString(),
+            result,
+            3 * 60 * 60 * 1000,
+          );
         }
         return result;
       }

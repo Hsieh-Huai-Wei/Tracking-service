@@ -5,7 +5,6 @@ import { AdminModule } from './admin/admin.module';
 import { DatabaseModule } from './core/database/database.module';
 import { RouterModule } from '@nestjs/core';
 import { ScheduleModule } from '@nestjs/schedule';
-// import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
