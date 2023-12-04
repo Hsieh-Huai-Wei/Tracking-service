@@ -20,6 +20,7 @@ GET http://localhost:3000/api/v1/query/report
 4. Cron job. (log logistics report at 0:00, 08:00, 16:00)
 
 5. Database normalization.
+![image](https://github.com/Hsieh-Huai-Wei/tracking-service/blob/main/database_design.png)
 
 6. Cache. (Not yet)
 
