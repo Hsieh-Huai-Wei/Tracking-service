@@ -7,21 +7,22 @@
 ## Requirement
 1. Create logistics fake data. (include detail)
 ```
-POST http://{{HOST}}/api/v1/fake?num=xxx
+POST http://107.21.67.168/api/v1/fake?num=xxx
 ``` 
 2. Get logistics data by sno.
 ```
-GET http://{{HOST}}/api/v1/query?sno=xxx
+GET http://107.21.67.168/api/v1/query?sno=xxx
 ``` 
 3. Get logistics report. (real time)
 ```
-GET http://localhost:3000/api/v1/query/report
+GET http://107.21.67.168/api/v1/query/report
 ```
 4. Cron job. (log logistics report at 0:00, 08:00, 16:00)
 
 5. Database normalization.
+```
 ![image](https://github.com/Hsieh-Huai-Wei/tracking-service/blob/main/database_design.png)
-
+```
 6. Cache. (Not yet)
 
 7. Upload logistics report to S3 (not yet)
