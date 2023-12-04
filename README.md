@@ -23,7 +23,9 @@ GET http://107.21.67.168/api/v1/query/report
 ```
 ![image](https://github.com/Hsieh-Huai-Wei/tracking-service/blob/main/database_design.png)
 ```
-6. Cache. (Not yet)
+6. Cache
+If logistics status is CREATED, IN_TRANSIT, PACKAGE_RECEIVED or OUT_OF_DELIVERY, it will store in Redis and TTL is 3 hours.
+
 
 7. Upload logistics report to S3 (not yet)
 
