@@ -1,44 +1,36 @@
-CREATE TYPE tracking_status AS ENUM (
-  'created',
-  'package_received',
-  'in_transit',
-  'out_for_delivery',
-  'delivered',
-  'returned_to_sender',
-  'exception'
-);
+
+
 
 
 CREATE TABLE account (
-  "id" SERIAL,
-  "name" varchar(255),
-  "address" varchar(255),
-  "phone" varchar(255),
-  "create_time" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  "modify_time" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  id int NOT NULL AUTO_INCREMENT,
+  name varchar(255),
+  address varchar(255),
+  phone varchar(255),
+  create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  modify_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 );
 
 CREATE TABLE location (
-  "id" SERIAL,
-  "title" varchar(255),
-  "city" varchar(255),
-  "address" varchar(255),
-  "create_time" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  "modify_time" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  id int NOT NULL AUTO_INCREMENT,
+  title varchar(255),
+  city varchar(255),
+  address varchar(255),
+  create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  modify_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 );
 
-
 CREATE TABLE logistics (
-  "id" SERIAL,
-  "sno" int NOT NULL,
-  "tracking_status" tracking_status NOT NULL,
-  "estimated_delivery" varchar(255),
-  "recipient_id" int NOT NULL,
-  "current_location_id" int NOT NULL,
-  "create_time" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  "modify_time" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  id SERIAL,
+  sno int NOT NULL,
+  tracking_status ENUM ('created', 'package_received', 'in_transit', 'out_for_delivery', 'delivered', 'returned_to_sender', 'exception') NOT NULL,
+  estimated_delivery varchar(255),
+  recipient_id int NOT NULL,
+  current_location_id int NOT NULL,
+  create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  modify_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   CONSTRAINT fk_account
     FOREIGN KEY(recipient_id)
@@ -48,22 +40,19 @@ CREATE TABLE logistics (
       REFERENCES location(id)
 );
 
-
 CREATE TABLE detail (
-  "id" SERIAL,
-  "logistics_id" int,
-  "date" varchar(255),
-  "time" varchar(255),
-  "status" tracking_status NOT NULL,
-  "location_id" varchar(255),
-  "create_time" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  "modify_time" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  id int NOT NULL AUTO_INCREMENT,
+  logistics_id int,
+  date varchar(255),
+  time varchar(255),
+  status ENUM ('created', 'package_received', 'in_transit', 'out_for_delivery', 'delivered', 'returned_to_sender', 'exception') NOT NULL,
+  location_id varchar(255),
+  create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  modify_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 );
 
-
 INSERT INTO location (id, title, city, address)
-
 VALUES
     (7, '台北物流中心', '台北市', '台北市中正區忠孝東路100號'),
     (13, '新竹物流中心', '新竹市', '新竹市東區光復路一段101號'),

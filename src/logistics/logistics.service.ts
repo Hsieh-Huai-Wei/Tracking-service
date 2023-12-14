@@ -6,8 +6,8 @@ import {
   LOCATION_REPOSITORY,
   LOGISTICS_REPOSITORY,
 } from '../core/database/constants/index';
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Cache } from 'cache-manager';
+import { RedisClientType } from 'redis';
+
 @Injectable()
 export class LogisticsService {
   constructor(
@@ -17,14 +17,15 @@ export class LogisticsService {
     private readonly location_repo: typeof Location,
     @Inject(LOGISTICS_REPOSITORY)
     private readonly logistics_repo: typeof Logistics,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    @Inject('REDIS_CLIENT')
+    private redisClient: RedisClientType,
   ) {}
   async findOne(sno: number) {
     try {
-      const value = await this.cacheManager.get<string>(sno.toString());
+      const value = await this.redisClient.get(sno.toString());
       if (value) {
         console.log(`get sno: ${sno} from Cache and return from Cache`);
-        return value;
+        return JSON.parse(value);
       }
       console.log(`Cache not find sno: ${sno}.`);
       const logisticsRes = await this.logistics_repo.findOne({
@@ -92,10 +93,12 @@ export class LogisticsService {
           console.log(
             `set sno: ${sno} to Cache. status: ${result.data.tracking_status}.`,
           );
-          await this.cacheManager.set(
+          console.log(typeof sno);
+          console.log(result);
+          await this.redisClient.setEx(
             sno.toString(),
-            result,
-            3 * 60 * 60 * 1000,
+            3 * 60 * 60,
+            JSON.stringify(result),
           );
         }
         return result;

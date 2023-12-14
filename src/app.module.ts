@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { LogisticsModule } from './logistics/logistics.module';
-import { AdminModule } from './admin/admin.module';
-import { DatabaseModule } from './core/database/database.module';
 import { RouterModule } from '@nestjs/core';
 import { ScheduleModule } from '@nestjs/schedule';
+import { AdminModule } from './admin/admin.module';
+import { AppController } from './app.controller';
+import { DatabaseModule } from './core/database/database.module';
+import { LogisticsModule } from './logistics/logistics.module';
 
 @Module({
   imports: [
