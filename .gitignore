@@ -37,3 +37,10 @@ lerna-debug.log*
 # Env files
 .*.env
 .env
+
+# DB
+Dockerfile*
+/mysql
+
+# NGINX
+/nginx

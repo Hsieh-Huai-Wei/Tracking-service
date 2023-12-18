@@ -23,6 +23,7 @@ export class LogisticsService {
   async findOne(sno: number) {
     try {
       const value = await this.redisClient.get(sno.toString());
+      console.log(value);
       if (value) {
         console.log(`get sno: ${sno} from Cache and return from Cache`);
         return JSON.parse(value);
@@ -95,11 +96,15 @@ export class LogisticsService {
           );
           console.log(typeof sno);
           console.log(result);
-          await this.redisClient.setEx(
-            sno.toString(),
-            3 * 60 * 60,
-            JSON.stringify(result),
-          );
+          try {
+            await this.redisClient.setEx(
+              sno.toString(),
+              3 * 60 * 60,
+              JSON.stringify(result),
+            );
+          } catch (error) {
+            console.log(error);
+          }
         }
         return result;
       }

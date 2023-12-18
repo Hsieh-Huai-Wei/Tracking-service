@@ -1,5 +1,6 @@
 
-
+set global character_set_database=utf8;
+set global character_set_server=utf8;
 
 
 CREATE TABLE account (

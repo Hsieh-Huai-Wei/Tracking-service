@@ -20,6 +20,7 @@ import { createClient } from 'redis';
       provide: 'REDIS_CLIENT',
       async useFactory() {
         const client = createClient({
+          legacyMode: true,
           socket: {
             host: process.env.REDIS_HOST || 'localhost',
             port: Number(process.env.REDIS_PORT) || 6379,

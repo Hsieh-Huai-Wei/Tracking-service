@@ -6,6 +6,7 @@ import {
   LOCATION_REPOSITORY,
   LOGISTICS_REPOSITORY,
 } from '../core/database/constants/index';
+import * as fs from 'fs-extra';
 
 @Injectable()
 export class AdminService {
@@ -79,6 +80,34 @@ export class AdminService {
     } catch (error) {
       console.log(error);
       throw new Error('Create logistics fail.');
+    }
+  }
+
+  async delete() {
+    try {
+      await this.location_repo.destroy({
+        where: {},
+        truncate: true,
+      });
+      await this.account_repo.destroy({
+        where: {},
+        truncate: true,
+      });
+    } catch (error) {
+      console.log(error);
+      throw new Error('Truncate data');
+    }
+  }
+
+  async init() {
+    try {
+      const data = await fs.readJson('src/raw/data.json');
+      console.log(data.location);
+      await this.location_repo.bulkCreate(data.location);
+      await this.account_repo.bulkCreate(data.account);
+    } catch (error) {
+      console.log(error);
+      throw new Error('Init data');
     }
   }
 }

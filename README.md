@@ -2,7 +2,8 @@
 
 - Language: Typescript
 - Framework: NestJS
-- Database: PostgreSQL
+- Database: MySQL
+- Cache: Redis
 
 ## Requirement
 1. Create logistics fake data. (include detail)
