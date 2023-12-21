@@ -106,6 +106,7 @@ export class LogisticsService {
             console.log(error);
           }
         }
+        console.log(result);
         return result;
       }
       return {

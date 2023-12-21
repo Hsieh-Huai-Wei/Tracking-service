@@ -16,13 +16,13 @@ export class Account extends Model<Account> {
   id: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.STRING + ' CHARSET utf8 COLLATE utf8_unicode_ci',
     allowNull: false,
   })
   name: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.STRING + ' CHARSET utf8 COLLATE utf8_unicode_ci',
     allowNull: false,
   })
   address: string;
